@@ -1,0 +1,13 @@
+## Changes
+- Migrated official brand logos, hero background, and product photography.
+- Integrated Larken font family and updated styling to use it for headings.
+- Updated About Us section with correct team information from oakivhydration.com.
+- Removed Guy from the team list and updated roles for leadership and medical staff.
+- Set up official brand favicon and site title.
+- Updated featured services on homepage with official imagery.
+
+## Verification
+- Logo renders in header.
+- Headings use Larken font.
+- Team section on About page reflects live site data.
+- Hero section uses bg_hero_main.png.

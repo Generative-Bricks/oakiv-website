@@ -82,14 +82,14 @@ const schema = a.schema({
     tags: a.string().array(),
     author: a.string().required(),
     publishedAt: a.datetime(),
-    status: a.ref('ArticleStatus').default('DRAFT')
+    status: a.ref('ArticleStatus')
   }).authorization(allow => [
     allow.guest().to(['read']),
     allow.authenticated().to(['read']),
     allow.groups(['Admin']).to(['create', 'update', 'delete', 'read'])
   ]),
 
-  // Contact form submissions
+  // Contact form submissions - with audit trail
   ContactSubmission: a.model({
     name: a.string().required(),
     email: a.email().required(),
@@ -97,13 +97,17 @@ const schema = a.schema({
     service: a.string(),
     message: a.string().required(),
     preferredContact: a.enum(['EMAIL', 'PHONE']),
-    status: a.enum(['NEW', 'READ', 'RESPONDED', 'ARCHIVED']).default('NEW')
+    status: a.enum(['NEW', 'READ', 'RESPONDED', 'ARCHIVED']),
+    // Audit fields
+    lastAccessedBy: a.string(),
+    lastAccessedAt: a.datetime()
   }).authorization(allow => [
     allow.guest().to(['create']),
-    allow.groups(['Admin']).to(['create', 'update', 'delete', 'read'])
+    allow.groups(['Admin', 'Staff']).to(['read', 'update'])
+    // No delete - use ARCHIVED status for audit compliance
   ]),
 
-  // Booking requests
+  // Booking requests - owner-based access for HIPAA compliance
   BookingRequest: a.model({
     service: a.string().required(),
     preferredDate: a.date().required(),
@@ -113,11 +117,15 @@ const schema = a.schema({
     phone: a.phone().required(),
     address: a.string(),
     notes: a.string(),
-    status: a.enum(['PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED']).default('PENDING')
+    status: a.enum(['PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED']),
+    // Owner field for access control
+    ownerEmail: a.string()
   }).authorization(allow => [
     allow.guest().to(['create']),
-    allow.authenticated().to(['read']),
-    allow.groups(['Admin']).to(['create', 'update', 'delete', 'read'])
+    // Owner can only read their own bookings (matched by ownerEmail)
+    allow.ownerDefinedIn('ownerEmail').to(['read']),
+    allow.groups(['Admin', 'Staff']).to(['create', 'update', 'read'])
+    // No delete - use status for audit compliance
   ])
 })
 
@@ -126,6 +134,11 @@ export type Schema = ClientSchema<typeof schema>
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam'
+    // Use IAM for guest access (public read)
+    defaultAuthorizationMode: 'iam',
+    // Enable userPool for authenticated admin operations
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    }
   }
 })

@@ -5,7 +5,7 @@
         <!-- Logo -->
         <router-link to="/" data-testid="logo" class="flex items-center gap-3">
           <img
-            src="/logo.png"
+            src="/assets/logo_color.png"
             alt="Oak IV Hydration & Wellness"
             class="h-12 w-auto"
             @error="handleLogoError"

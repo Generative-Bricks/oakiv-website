@@ -1,8 +1,13 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section data-testid="hero-section" class="relative min-h-[80vh] flex items-center bg-oak-green-pale">
-      <div class="container mx-auto px-4 py-20">
+    <section data-testid="hero-section" class="relative min-h-[80vh] flex items-center bg-oak-green-pale overflow-hidden">
+      <!-- Hero Background Image -->
+      <div class="absolute inset-0 z-0">
+        <img src="/assets/hero_main.png" alt="" class="w-full h-full object-cover opacity-60" />
+      </div>
+
+      <div class="container relative z-10 mx-auto px-4 py-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <span class="inline-block text-oak-gold text-sm font-semibold tracking-wider uppercase mb-4">
@@ -18,21 +23,21 @@
               <router-link
                 to="/book"
                 data-testid="hero-cta"
-                class="inline-flex px-8 py-4 bg-oak-green-primary text-white rounded-lg text-lg font-semibold hover:bg-oak-green-light transition-colors"
+                class="inline-flex px-8 py-4 bg-oak-green-primary text-white rounded-lg text-lg font-semibold hover:bg-oak-green-light transition-colors shadow-lg"
               >
                 Schedule Your Service
               </router-link>
               <router-link
                 to="/services"
-                class="inline-flex px-8 py-4 border-2 border-oak-green-primary text-oak-green-primary rounded-lg text-lg font-semibold hover:bg-oak-green-pale transition-colors"
+                class="inline-flex px-8 py-4 border-2 border-oak-green-primary text-oak-green-primary rounded-lg text-lg font-semibold hover:bg-white/50 transition-colors backdrop-blur-sm"
               >
                 Explore Services
               </router-link>
             </div>
           </div>
-          <div class="hidden lg:block">
-            <div class="aspect-square bg-gradient-to-br from-oak-green-light/20 to-oak-gold/20 rounded-2xl flex items-center justify-center">
-              <span class="text-oak-text-light">Hero Image Placeholder</span>
+          <div class="hidden lg:block relative">
+            <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+              <img src="/assets/logo_text_gold.png" alt="Oak IV" class="w-full h-auto bg-white/10 backdrop-blur-md p-12" />
             </div>
           </div>
         </div>
@@ -138,12 +143,13 @@ import type { Service } from '@/types'
 const featuredServices = ref<Service[]>([
   {
     id: '1',
-    category: 'iv-therapy',
+    category: 'IV_THERAPY',
     name: 'Myers Cocktail',
     slug: 'myers-cocktail',
     shortDescription: 'Our signature IV blend for overall wellness, energy, and immune support.',
     fullDescription: '',
     price: 175,
+    image: '/assets/products/product_drip_myers-cocktail.png',
     benefits: ['Energy boost', 'Immune support', 'Hydration'],
     featured: true,
     sortOrder: 1,
@@ -151,12 +157,13 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '2',
-    category: 'iv-therapy',
+    category: 'IV_THERAPY',
     name: 'Hydration Therapy',
     slug: 'hydration-therapy',
     shortDescription: 'Pure hydration to replenish fluids and restore balance.',
     fullDescription: '',
     price: 125,
+    image: '/assets/products/product_drip_quench.png',
     benefits: ['Rehydration', 'Electrolyte balance', 'Recovery'],
     featured: true,
     sortOrder: 2,
@@ -164,12 +171,13 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '3',
-    category: 'vitamin-injection',
+    category: 'VITAMIN_INJECTION',
     name: 'B12 Boost',
     slug: 'b12-boost',
     shortDescription: 'Quick energy boost with vitamin B12 injection.',
     fullDescription: '',
     price: 35,
+    image: '/assets/products/product_injection_b12.png',
     benefits: ['Energy', 'Mental clarity', 'Metabolism'],
     featured: true,
     sortOrder: 3,
@@ -177,12 +185,13 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '4',
-    category: 'iv-therapy',
+    category: 'IV_THERAPY',
     name: 'Immunity Drip',
     slug: 'immunity-drip',
     shortDescription: 'High-dose vitamin C and zinc to strengthen your immune system.',
     fullDescription: '',
     price: 195,
+    image: '/assets/products/product_drip_immunity-boost.png',
     benefits: ['Immune boost', 'Antioxidants', 'Recovery'],
     featured: true,
     sortOrder: 4,

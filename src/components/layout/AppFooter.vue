@@ -4,13 +4,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Brand Column -->
         <div class="lg:col-span-1">
-          <router-link to="/" class="inline-block mb-4">
-            <img
-              src="/logo.png"
-              alt="Oak IV Hydration & Wellness"
-              class="h-16 w-auto brightness-0 invert"
-            />
-          </router-link>
+            <router-link to="/" class="inline-block mb-4">
+              <img
+                src="/assets/logo_white.png"
+                alt="Oak IV Hydration & Wellness"
+                class="h-16 w-auto"
+              />
+            </router-link>
           <p class="text-white/80 text-sm leading-relaxed">
             Premium mobile IV hydration and wellness services serving the DFW Metroplex.
           </p>

@@ -1,30 +1,63 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+// App shell - will be replaced with router-view
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <div class="min-h-screen bg-oak-cream">
+    <!-- Header placeholder -->
+    <header class="bg-white shadow-sm">
+      <div class="container mx-auto px-4 py-6">
+        <h1 class="font-display text-3xl text-oak-green-primary">
+          Oak IV Hydration & Wellness
+        </h1>
+      </div>
+    </header>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+    <!-- Main content placeholder -->
+    <main class="container mx-auto px-4 py-12">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="font-display text-4xl text-oak-text mb-4">
+          Design System Ready
+        </h2>
+        <p class="text-oak-text-light mb-8">
+          The Oak IV brand design system has been configured with Tailwind CSS v4.
+        </p>
+
+        <!-- Button examples -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <button class="btn-primary">
+            Primary Button
+          </button>
+          <button class="btn-secondary">
+            Secondary Button
+          </button>
+          <button class="btn-outline">
+            Outline Button
+          </button>
+        </div>
+
+        <!-- Color swatches -->
+        <div class="mt-12">
+          <h3 class="font-display text-2xl text-oak-text mb-6">Brand Colors</h3>
+          <div class="flex flex-wrap justify-center gap-4">
+            <div class="w-24 h-24 rounded-lg bg-oak-green-primary flex items-end justify-center pb-2">
+              <span class="text-white text-xs">Primary</span>
+            </div>
+            <div class="w-24 h-24 rounded-lg bg-oak-green-light flex items-end justify-center pb-2">
+              <span class="text-white text-xs">Light</span>
+            </div>
+            <div class="w-24 h-24 rounded-lg bg-oak-green-pale border flex items-end justify-center pb-2">
+              <span class="text-oak-text text-xs">Pale</span>
+            </div>
+            <div class="w-24 h-24 rounded-lg bg-oak-gold flex items-end justify-center pb-2">
+              <span class="text-white text-xs">Gold</span>
+            </div>
+            <div class="w-24 h-24 rounded-lg bg-oak-cream border flex items-end justify-center pb-2">
+              <span class="text-oak-text text-xs">Cream</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>

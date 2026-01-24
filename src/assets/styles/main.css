@@ -1,0 +1,71 @@
+/* Import Google Fonts - must be before @import "tailwindcss" */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* Oak IV Brand Design System - Tailwind v4 Theme */
+@theme {
+  /* Brand Colors */
+  --color-oak-green-primary: #2E5B3C;
+  --color-oak-green-light: #4A7C59;
+  --color-oak-green-pale: #E8F0EB;
+  --color-oak-gold: #C9A962;
+  --color-oak-cream: #FAF9F6;
+  --color-oak-text: #333333;
+  --color-oak-text-light: #666666;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-oak-text);
+    background-color: var(--color-oak-cream);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Component Utilities */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-200;
+    background-color: var(--color-oak-green-primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-oak-green-light);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-200;
+    background-color: var(--color-oak-gold);
+    color: white;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-200 border-2;
+    border-color: var(--color-oak-green-primary);
+    color: var(--color-oak-green-primary);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-oak-green-pale);
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    color: var(--color-oak-text);
+  }
+}

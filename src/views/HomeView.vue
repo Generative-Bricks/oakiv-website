@@ -27,12 +27,12 @@
               >
                 Schedule Your Service
               </router-link>
-              <router-link
-                to="/services"
+              <a
+                href="sms:9402684088?&body=WELLNESS"
                 class="inline-flex px-8 py-4 border-2 border-oak-green-primary text-oak-green-primary rounded-lg text-lg font-semibold hover:bg-white/50 transition-colors backdrop-blur-sm"
               >
-                Explore Services
-              </router-link>
+                Text WELLNESS to 940-268-4088
+              </a>
             </div>
           </div>
           <div class="hidden lg:block relative">
@@ -115,19 +115,27 @@
 
     <!-- CTA Section -->
     <section class="py-20 bg-oak-green-primary">
-      <div class="container mx-auto px-4 text-center">
-        <h2 class="font-display text-3xl md:text-4xl text-white mb-4">
+      <div class="container mx-auto px-4 text-center text-white">
+        <h2 class="font-display text-3xl md:text-4xl mb-4">
           Ready to Feel Your Best?
         </h2>
         <p class="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-          Book your mobile IV therapy session today and experience the Oak IV difference.
+          Book your mobile IV therapy session today or text us to get started. 
         </p>
-        <router-link
-          to="/book"
-          class="inline-flex px-8 py-4 bg-oak-gold text-white rounded-lg text-lg font-semibold hover:bg-oak-gold/90 transition-colors"
-        >
-          Book Your Appointment
-        </router-link>
+        <div class="flex flex-wrap justify-center gap-4">
+          <router-link
+            to="/book"
+            class="inline-flex px-8 py-4 bg-oak-gold text-white rounded-lg text-lg font-semibold hover:bg-oak-gold/90 transition-colors shadow-lg"
+          >
+            Book Your Appointment
+          </router-link>
+          <a
+            href="sms:9402684088?&body=WELLNESS"
+            class="inline-flex px-8 py-4 border-2 border-white/30 text-white rounded-lg text-lg font-semibold hover:bg-white/10 transition-colors"
+          >
+            Text WELLNESS to 940-268-4088
+          </a>
+        </div>
       </div>
     </section>
   </div>
@@ -139,7 +147,7 @@ import { SectionHeading } from '@/components/ui'
 import { ServiceCard } from '@/components/features'
 import type { Service } from '@/types'
 
-// Placeholder featured services - will be replaced with store data
+// Featured services with updated pricing from oakivhydration.com
 const featuredServices = ref<Service[]>([
   {
     id: '1',
@@ -148,7 +156,7 @@ const featuredServices = ref<Service[]>([
     slug: 'myers-cocktail',
     shortDescription: 'Our signature IV blend for overall wellness, energy, and immune support.',
     fullDescription: '',
-    price: 175,
+    price: 185,
     image: '/assets/products/product_drip_myers-cocktail.png',
     benefits: ['Energy boost', 'Immune support', 'Hydration'],
     featured: true,
@@ -158,11 +166,11 @@ const featuredServices = ref<Service[]>([
   {
     id: '2',
     category: 'IV_THERAPY',
-    name: 'Hydration Therapy',
-    slug: 'hydration-therapy',
+    name: 'Quench',
+    slug: 'quench',
     shortDescription: 'Pure hydration to replenish fluids and restore balance.',
     fullDescription: '',
-    price: 125,
+    price: 99,
     image: '/assets/products/product_drip_quench.png',
     benefits: ['Rehydration', 'Electrolyte balance', 'Recovery'],
     featured: true,
@@ -176,7 +184,7 @@ const featuredServices = ref<Service[]>([
     slug: 'b12-boost',
     shortDescription: 'Quick energy boost with vitamin B12 injection.',
     fullDescription: '',
-    price: 35,
+    price: 20,
     image: '/assets/products/product_injection_b12.png',
     benefits: ['Energy', 'Mental clarity', 'Metabolism'],
     featured: true,

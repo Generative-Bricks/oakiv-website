@@ -106,15 +106,27 @@ authType: FunctionUrlAuthType.NONE     // WRONG - security risk
 ## Testing
 
 ```bash
-npm run test                   # Run all tests
+# Unit tests (Vitest)
+npm run test                   # Run all unit tests
 npm run test -- ServiceCard    # Run specific test file
 npm run test:watch             # Watch mode
+
+# E2E tests (Playwright)
+npm run test:e2e               # Run E2E tests headless
+npm run test:e2e:ui            # Interactive Playwright UI
+npm run test:e2e:headed        # Run in visible browser
+npm run test:e2e:report        # View test report
 ```
 
-Write tests in `tests/unit/` using Vitest + Vue Test Utils:
+Write unit tests in `tests/unit/` using Vitest:
 ```typescript
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+```
+
+Write E2E tests in `tests/e2e/` using Playwright:
+```typescript
+import { test, expect } from '@playwright/test'
 ```
 
 ## Git Workflow

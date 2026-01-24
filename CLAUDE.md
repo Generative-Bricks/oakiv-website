@@ -160,8 +160,15 @@ npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID
 ## Testing
 
 - **Unit tests:** `tests/unit/` with Vitest + Vue Test Utils
-- **E2E tests:** `tests/e2e/` with Playwright (pending setup)
+- **E2E tests:** `tests/e2e/` with Playwright
 - **TDD approach:** Write failing tests first
+
+```bash
+npm run test              # Unit tests (Vitest)
+npm run test:e2e          # E2E tests (Playwright)
+npm run test:e2e:ui       # E2E with interactive UI
+npm run test:e2e:headed   # E2E in visible browser
+```
 
 ## Common Issues
 

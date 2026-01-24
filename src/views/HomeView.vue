@@ -151,7 +151,7 @@ import type { Service } from '@/types'
 const featuredServices = ref<Service[]>([
   {
     id: '1',
-    category: 'IV_THERAPY',
+    category: 'iv-therapy',
     name: 'Myers Cocktail',
     slug: 'myers-cocktail',
     shortDescription: 'Our signature IV blend for overall wellness, energy, and immune support.',
@@ -165,7 +165,7 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '2',
-    category: 'IV_THERAPY',
+    category: 'iv-therapy',
     name: 'Quench',
     slug: 'quench',
     shortDescription: 'Pure hydration to replenish fluids and restore balance.',
@@ -179,7 +179,7 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '3',
-    category: 'VITAMIN_INJECTION',
+    category: 'vitamin-injection',
     name: 'B12 Boost',
     slug: 'b12-boost',
     shortDescription: 'Quick energy boost with vitamin B12 injection.',
@@ -193,7 +193,7 @@ const featuredServices = ref<Service[]>([
   },
   {
     id: '4',
-    category: 'IV_THERAPY',
+    category: 'iv-therapy',
     name: 'Immunity Drip',
     slug: 'immunity-drip',
     shortDescription: 'High-dose vitamin C and zinc to strengthen your immune system.',

@@ -29,7 +29,7 @@ export async function initializeChatEndpoint(): Promise<void> {
     const outputs = await import('../../amplify_outputs.json')
     const config = outputs.default || outputs
     // The chat function URL is exposed as a custom output
-    chatEndpoint = config.custom?.chatFunctionUrl || null
+    chatEndpoint = (config as any).custom?.chatFunctionUrl || null
 
     if (!chatEndpoint) {
       console.warn('Chat function URL not found in Amplify outputs.')

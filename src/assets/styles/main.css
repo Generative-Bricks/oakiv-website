@@ -3,7 +3,7 @@
 
 @import "tailwindcss";
 
-/* Oak IV Brand Design System - Tailwind v4 Theme */
+/* Brand Design System - Tailwind v4 Theme */
 @theme {
   /* Brand Colors */
   --color-oak-green-primary: #2E5B3C;
@@ -16,7 +16,31 @@
 
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Playfair Display', serif;
+  --font-display: 'Larken', 'Playfair Display', serif;
+}
+
+@font-face {
+  font-family: 'Larken';
+  src: url('/fonts/larken/Larken-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Larken';
+  src: url('/fonts/larken/Larken-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Larken';
+  src: url('/fonts/larken/Larken-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Base Styles */

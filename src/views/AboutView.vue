@@ -138,6 +138,28 @@
       </div>
     </section>
 
+    <!-- Team Section -->
+    <section class="py-16 bg-white overflow-hidden">
+      <div class="container mx-auto px-4">
+        <SectionHeading
+          eyebrow="Our Team"
+          title="Meet the Wellness Experts"
+          subtitle="A dedicated team of professionals committed to your health and hydration."
+        />
+        
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div v-for="member in teamMembers" :key="member.name" class="group">
+            <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-6 shadow-md group-hover:shadow-xl transition-all duration-300">
+              <img :src="member.image" :alt="member.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="font-display text-2xl text-oak-text mb-1">{{ member.name }}</h3>
+            <p class="text-oak-gold font-semibold text-sm uppercase tracking-wider mb-2">{{ member.role }}</p>
+            <p class="text-oak-text-light text-sm">{{ member.bio }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="py-16 bg-oak-green-primary">
       <div class="container mx-auto px-4 text-center">
@@ -160,4 +182,43 @@
 
 <script setup lang="ts">
 import { SectionHeading } from '@/components/ui'
+
+const teamMembers = [
+  {
+    name: 'Kristin Mrnustik, NP',
+    role: 'Founder & Board-Certified Nurse Practitioner',
+    image: '/assets/team/photo_team_kristin-headshot.png',
+    bio: 'With over 20 years of experience, Kristin leads Oak IV with a focus on holistic, root-cause wellness and personalized care.'
+  },
+  {
+    name: 'Jill, RN',
+    role: 'Registered Nurse',
+    image: '/assets/team/photo_team_jill.jpg',
+    bio: 'With a background in Pediatric ICU, Jill brings a passion for holistic wellness and expert clinical care to our mobile team.'
+  },
+  {
+    name: 'Beth, RN',
+    role: 'Registered Nurse',
+    image: '/assets/team/photo_team_jill-alt.jpeg', // Using jill-alt as placeholder for Beth if specifically identifiable photo isn't clear
+    bio: 'Beth brings extensive experience in transplant, reconstructive, and perioperative care to our wellness treatments.'
+  },
+  {
+    name: 'Marc Bauer, DO',
+    role: 'Medical Director',
+    image: '/assets/team/photo_team_misc.png', // Using misc for doctor as medical director
+    bio: 'Board Certified in Family Medicine, Dr. Bauer oversees all medical protocols to ensure safety and clinical excellence.'
+  },
+  {
+    name: 'Abby, RN',
+    role: 'Registered Nurse',
+    image: '/assets/team/photo_team_abby.jpg',
+    bio: 'Abby provides expert care and personalized wellness treatments, ensuring every client feels refreshed and rejuvenated.'
+  },
+  {
+    name: 'Madie, RN',
+    role: 'Registered Nurse',
+    image: '/assets/team/photo_team_madie.png',
+    bio: 'Madie is dedicated to helping clients achieve their health goals through specialized and effective IV therapy.'
+  }
+]
 </script>

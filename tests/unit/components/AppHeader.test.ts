@@ -25,9 +25,11 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="book-cta"]').exists()).toBe(true)
   })
 
-  it('renders company name', () => {
+  it('renders logo with proper alt text', () => {
     const wrapper = mount(AppHeader, { global: { stubs } })
-    expect(wrapper.text()).toContain('Oak IV')
+    const logo = wrapper.find('[data-testid="logo"] img')
+    expect(logo.exists()).toBe(true)
+    expect(logo.attributes('alt')).toContain('Oak IV')
   })
 
   it('has mobile menu button', () => {

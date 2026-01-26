@@ -56,7 +56,7 @@
                 </div>
               </div>
               <router-link
-                to="/book"
+                :to="{ path: '/book', query: { service: service.slug } }"
                 class="inline-flex px-8 py-4 bg-oak-green-primary text-white rounded-lg text-lg font-semibold hover:bg-oak-green-light transition-colors"
               >
                 Book This Service
@@ -137,7 +137,7 @@
                 </div>
                 <hr class="my-6 border-gray-100" />
                 <router-link
-                  to="/book"
+                  :to="{ path: '/book', query: { service: service.slug } }"
                   class="block w-full px-6 py-3 bg-oak-green-primary text-white rounded-lg font-semibold text-center hover:bg-oak-green-light transition-colors"
                 >
                   Book Now

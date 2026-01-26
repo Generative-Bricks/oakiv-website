@@ -66,8 +66,9 @@
         </li>
       </ul>
 
-      <!-- Learn More Link -->
+      <!-- Learn More Link (only for bookable services, not vitamin injections) -->
       <router-link
+        v-if="isBookable"
         :to="`/services/${service.slug}`"
         data-testid="service-link"
         class="inline-flex items-center text-oak-green-primary font-semibold hover:text-oak-green-light transition-colors group"
@@ -77,6 +78,13 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </router-link>
+      <!-- Add-on indicator for vitamin injections -->
+      <span v-else class="inline-flex items-center text-oak-text-light text-sm">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Add-on service
+      </span>
     </div>
   </article>
 </template>
@@ -91,5 +99,10 @@ const props = defineProps<{
 
 const displayedBenefits = computed(() => {
   return props.service.benefits?.slice(0, 3) || []
+})
+
+// Vitamin injections are add-on services, not bookable standalone
+const isBookable = computed(() => {
+  return props.service.category !== 'vitamin-injection'
 })
 </script>

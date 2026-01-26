@@ -385,6 +385,22 @@ function getMockServices(): Service[] {
       sortOrder: 3,
       active: true
     },
+    {
+      id: '19',
+      category: 'vitamin-injection',
+      name: 'Toradol (Pain Relief)',
+      slug: 'toradol',
+      shortDescription: 'Strong anti-inflammatory for pain relief.',
+      fullDescription: 'Toradol (Ketorolac) is a powerful non-steroidal anti-inflammatory drug (NSAID) that provides fast-acting relief from moderate to severe pain. Ideal for migraines, muscle pain, and post-workout soreness.',
+      price: 35,
+      duration: '5-10 min',
+      image: '/assets/products/product_injection_toradol.png',
+      benefits: ['Rapid pain relief', 'Reduces inflammation', 'Migraine relief', 'Muscle pain relief'],
+      ingredients: ['Ketorolac (Toradol)'],
+      featured: true,
+      sortOrder: 4,
+      active: true
+    },
 
     // OTHER SERVICES
     {

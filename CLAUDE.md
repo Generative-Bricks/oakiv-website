@@ -157,6 +157,13 @@ npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID
 ```
 
+## Booking Flow
+
+- Service detail pages link to `/book?service={slug}` to pre-select the service
+- `BookView.vue` reads query param and sets `selectedService` + `wasPreselected`
+- Only `bookableServices` shown (excludes `vitamin-injection` category which are add-ons)
+- Keep slugs consistent between `HomeView.vue` and `stores/services.ts` to avoid "Service Not Found"
+
 ## Testing
 
 - **Unit tests:** `tests/unit/` with Vitest + Vue Test Utils

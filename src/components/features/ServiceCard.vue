@@ -1,18 +1,20 @@
 <template>
   <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
     <!-- Image -->
-    <div v-if="service.image" class="aspect-[4/3] overflow-hidden">
+    <div v-if="service.image" class="aspect-[4/3] overflow-hidden relative group">
       <img
         :src="service.image"
         :alt="service.name"
-        class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
+      <!-- Nano/Gloss Effect Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-tr from-oak-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none mix-blend-overlay"></div>
     </div>
 
     <!-- Placeholder if no image -->
     <div
       v-else
-      class="aspect-[4/3] bg-gradient-to-br from-oak-green-pale to-oak-green-light/20 flex items-center justify-center"
+      class="aspect-[4/3] bg-oak-green-pale flex items-center justify-center"
     >
       <svg class="w-16 h-16 text-oak-green-primary/30" fill="currentColor" viewBox="0 0 24 24">
         <path d="M19.5 12c0 .88-.18 1.72-.5 2.5l2.1 2.1c.6-1.3.9-2.9.9-4.6s-.3-3.3-.9-4.6l-2.1 2.1c.32.78.5 1.62.5 2.5zM12 5.5c3.59 0 6.5 2.91 6.5 6.5 0 .88-.18 1.72-.5 2.5l2.1 2.1C20.7 15.3 21 13.7 21 12c0-4.97-4.03-9-9-9-1.7 0-3.3.3-4.6.9l2.1 2.1c.78-.32 1.62-.5 2.5-.5zm-7.5 6.5c0-.88.18-1.72.5-2.5L2.9 7.4C2.3 8.7 2 10.3 2 12s.3 3.3.9 4.6l2.1-2.1c-.32-.78-.5-1.62-.5-2.5zM12 18.5c-3.59 0-6.5-2.91-6.5-6.5 0-.88.18-1.72.5-2.5L3.9 7.4C3.3 8.7 3 10.3 3 12c0 4.97 4.03 9 9 9 1.7 0 3.3-.3 4.6-.9l-2.1-2.1c-.78.32-1.62.5-2.5.5z"/>

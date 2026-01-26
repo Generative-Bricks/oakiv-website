@@ -6,13 +6,14 @@
 /* Brand Design System - Tailwind v4 Theme */
 @theme {
   /* Brand Colors */
-  --color-oak-green-primary: #2E5B3C;
-  --color-oak-green-light: #4A7C59;
-  --color-oak-green-pale: #E8F0EB;
-  --color-oak-gold: #C9A962;
-  --color-oak-cream: #FAF9F6;
-  --color-oak-text: #333333;
-  --color-oak-text-light: #666666;
+  --color-oak-green-primary: #56715c; /* Softer Sage Green */
+  --color-oak-green-light: #8da391;   /* Muted Light Green */
+  --color-oak-green-dark: #3a4f3f;    /* Softer Dark Green */
+  --color-oak-green-pale: #f2f5f3;    /* Very subtle organic white */
+  --color-oak-gold: #d4bda5;          /* Muted Champagne Gold instead of harsh yellow gold */
+  --color-oak-cream: #fdfaf6;         /* Warmer, specialized cream */
+  --color-oak-text: #4a4a4a;          /* Softer text (Charcoal > Black) */
+  --color-oak-text-light: #787878;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;

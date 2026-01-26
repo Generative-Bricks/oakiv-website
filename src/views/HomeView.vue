@@ -1,139 +1,142 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section data-testid="hero-section" class="relative min-h-[80vh] flex items-center bg-oak-green-pale overflow-hidden">
+    <section data-testid="hero-section" class="relative min-h-[85vh] flex items-center bg-oak-green-pale overflow-hidden">
       <!-- Hero Background Image -->
       <div class="absolute inset-0 z-0">
-        <img src="/assets/hero_main.png" alt="" class="w-full h-full object-cover opacity-60" />
+        <img src="/assets/hero_roots.png" alt="Deep Roots Wellness" class="w-full h-full object-cover" />
+        <!-- Gradeint Overlay for Readability -->
+        <div class="absolute inset-0 bg-gradient-to-r from-oak-green-dark/90 via-oak-green-dark/60 to-transparent"></div>
       </div>
 
       <div class="container relative z-10 mx-auto px-4 py-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <span class="inline-block text-oak-gold text-sm font-semibold tracking-wider uppercase mb-4">
+          <div class="max-w-2xl">
+            <span class="inline-block text-oak-gold text-sm font-semibold tracking-wider uppercase mb-4 pl-1">
               Mobile IV Therapy
             </span>
-            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-oak-text mb-6 leading-tight">
-              Premium IV Hydration & Wellness Services
+            <h1 class="font-display text-4xl md:text-5xl lg:text-7xl text-white mb-6 leading-tight">
+              Premium IV Therapy <span class="text-oak-gold italic">at Your Doorstep</span>
             </h1>
-            <p class="text-xl text-oak-text-light mb-8 leading-relaxed">
-              Serving the DFW Metroplex with personalized wellness treatments delivered directly to your door.
+            <p class="text-xl text-white/90 mb-8 leading-relaxed font-light">
+              Revitalize your body and mind with our signature hydration blends. Our Registered Nurses bring premium wellness directly to you.
             </p>
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
               <router-link
                 to="/book"
                 data-testid="hero-cta"
-                class="inline-flex px-8 py-4 bg-oak-green-primary text-white rounded-lg text-lg font-semibold hover:bg-oak-green-light transition-colors shadow-lg"
+                class="inline-flex justify-center items-center px-8 py-4 bg-oak-gold text-white rounded-lg text-lg font-semibold hover:bg-oak-gold/90 transition-all shadow-lg hover:shadow-oak-gold/20 transform hover:-translate-y-0.5"
               >
-                Schedule Your Service
+                Book Your Service
               </router-link>
               <a
                 href="sms:9402684088?&body=WELLNESS"
-                class="inline-flex px-8 py-4 border-2 border-oak-green-primary text-oak-green-primary rounded-lg text-lg font-semibold hover:bg-white/50 transition-colors backdrop-blur-sm"
+                class="inline-flex justify-center items-center px-8 py-4 border border-white/40 text-white rounded-lg text-lg font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm"
               >
-                Text WELLNESS to 940-268-4088
+                Text Us: 940-268-4088
               </a>
             </div>
-          </div>
-          <div class="hidden lg:block relative">
-            <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
-              <img src="/assets/logo_text_gold.png" alt="Oak IV" class="w-full h-auto bg-white/10 backdrop-blur-md p-12" />
+            <div class="mt-8 flex items-center gap-2 text-white/70 text-sm">
+              <svg class="w-5 h-5 text-oak-gold" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Serving the Entire DFW Metroplex</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- How It Works -->
+    <HowItWorks />
+
+    <!-- Shop By Benefit -->
+    <ShopByBenefit />
+
     <!-- Services Preview Section -->
-    <section data-testid="services-section" class="py-20">
+    <section data-testid="services-section" class="py-24 bg-white">
       <div class="container mx-auto px-4">
         <SectionHeading
-          eyebrow="Our Services"
-          title="Choose Your Wellness Blend"
-          subtitle="Our signature treatments are designed to help you feel your best, whether you're recovering, rehydrating, or rejuvenating."
+          eyebrow="Our Menu"
+          title="Most Popular Treatments"
+          subtitle="Select from our premium IV drips and vitamin injections, formulated to help you feel your best."
         />
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Category Toggles -->
+        <div class="flex justify-center mb-12">
+          <div class="bg-oak-green-pale/30 p-1.5 rounded-full inline-flex">
+            <button 
+              @click="activeCategory = 'iv-therapy'"
+              class="px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300"
+              :class="activeCategory === 'iv-therapy' ? 'bg-oak-green-primary text-white shadow-md' : 'text-oak-text hover:text-oak-green-primary'"
+            >
+              IV Drips
+            </button>
+            <button 
+              @click="activeCategory = 'vitamin-injection'"
+              class="px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300"
+              :class="activeCategory === 'vitamin-injection' ? 'bg-oak-green-primary text-white shadow-md' : 'text-oak-text hover:text-oak-green-primary'"
+            >
+              Injections
+            </button>
+          </div>
+        </div>
+
+        <!-- Service Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <ServiceCard
-            v-for="service in featuredServices"
+            v-for="service in filteredServices"
             :key="service.id"
             :service="service"
           />
         </div>
+
         <div class="text-center mt-12">
           <router-link
             to="/services"
-            class="inline-flex items-center text-oak-green-primary font-semibold hover:text-oak-green-light transition-colors"
+            class="inline-flex items-center text-oak-green-primary font-semibold hover:text-oak-green-light transition-colors border-b-2 border-transparent hover:border-oak-green-light pb-0.5"
           >
-            View All Services
+            View Full Menu
             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </router-link>
         </div>
       </div>
     </section>
 
-    <!-- Why Choose Us Section -->
-    <section class="py-20 bg-white">
-      <div class="container mx-auto px-4">
-        <SectionHeading
-          eyebrow="Why Oak IV"
-          title="The Oak IV Difference"
-          subtitle="Experience premium wellness care with our professional team."
-        />
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="text-center p-6">
-            <div class="w-16 h-16 mx-auto mb-4 bg-oak-green-pale rounded-full flex items-center justify-center">
-              <svg class="w-8 h-8 text-oak-green-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <h3 class="font-display text-xl text-oak-text mb-2">Licensed Professionals</h3>
-            <p class="text-oak-text-light">All treatments administered by certified healthcare professionals.</p>
-          </div>
-          <div class="text-center p-6">
-            <div class="w-16 h-16 mx-auto mb-4 bg-oak-green-pale rounded-full flex items-center justify-center">
-              <svg class="w-8 h-8 text-oak-green-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-            </div>
-            <h3 class="font-display text-xl text-oak-text mb-2">Mobile Convenience</h3>
-            <p class="text-oak-text-light">We come to you - home, office, hotel, or event venue.</p>
-          </div>
-          <div class="text-center p-6">
-            <div class="w-16 h-16 mx-auto mb-4 bg-oak-green-pale rounded-full flex items-center justify-center">
-              <svg class="w-8 h-8 text-oak-green-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </div>
-            <h3 class="font-display text-xl text-oak-text mb-2">Personalized Care</h3>
-            <p class="text-oak-text-light">Customized treatments tailored to your specific wellness needs.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Trust Badges -->
+    <TrustBadges />
+
+    <!-- Testimonials -->
+    <TestimonialCarousel />
 
     <!-- CTA Section -->
-    <section class="py-20 bg-oak-green-primary">
-      <div class="container mx-auto px-4 text-center text-white">
-        <h2 class="font-display text-3xl md:text-4xl mb-4">
+    <section class="py-20 bg-oak-text relative overflow-hidden">
+      <!-- Background pattern/image could go here -->
+      <div class="absolute inset-0 overflow-hidden opacity-10">
+         <img src="/assets/hero_roots.png" alt="" class="w-full h-full object-cover grayscale" />
+      </div>
+      
+      <div class="container mx-auto px-4 text-center text-white relative z-10">
+        <h2 class="font-display text-3xl md:text-5xl mb-6">
           Ready to Feel Your Best?
         </h2>
-        <p class="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-          Book your mobile IV therapy session today or text us to get started. 
+        <p class="text-white/70 text-lg mb-10 max-w-2xl mx-auto font-light">
+          Book your mobile IV therapy session today. Same-day appointments available.
         </p>
-        <div class="flex flex-wrap justify-center gap-4">
+        <div class="flex flex-wrap justify-center gap-6">
           <router-link
             to="/book"
-            class="inline-flex px-8 py-4 bg-oak-gold text-white rounded-lg text-lg font-semibold hover:bg-oak-gold/90 transition-colors shadow-lg"
+            class="inline-flex px-10 py-4 bg-oak-gold text-white rounded-lg text-lg font-semibold hover:bg-oak-gold/90 transition-colors shadow-lg shadow-oak-gold/20"
           >
-            Book Your Appointment
+            Book Now
           </router-link>
           <a
             href="sms:9402684088?&body=WELLNESS"
-            class="inline-flex px-8 py-4 border-2 border-white/30 text-white rounded-lg text-lg font-semibold hover:bg-white/10 transition-colors"
+            class="inline-flex px-10 py-4 border border-white/30 text-white rounded-lg text-lg font-semibold hover:bg-white/10 transition-colors"
           >
-            Text WELLNESS to 940-268-4088
+            Text Us
           </a>
         </div>
       </div>
@@ -142,10 +145,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { SectionHeading } from '@/components/ui'
 import { ServiceCard } from '@/components/features'
+import HowItWorks from '@/components/home/HowItWorks.vue'
+import ShopByBenefit from '@/components/home/ShopByBenefit.vue'
+import TrustBadges from '@/components/home/TrustBadges.vue'
+import TestimonialCarousel from '@/components/home/TestimonialCarousel.vue'
 import type { Service } from '@/types'
+
+// Active category for the filter
+const activeCategory = ref('iv-therapy')
 
 // Featured services with updated pricing from oakivhydration.com
 const featuredServices = ref<Service[]>([
@@ -154,7 +164,7 @@ const featuredServices = ref<Service[]>([
     category: 'iv-therapy',
     name: 'Myers Cocktail',
     slug: 'myers-cocktail',
-    shortDescription: 'Our signature IV blend for overall wellness, energy, and immune support.',
+    shortDescription: 'The gold standard for overall wellness, immunity, and energy.',
     fullDescription: '',
     price: 185,
     image: '/assets/products/product_drip_myers-cocktail.png',
@@ -164,17 +174,45 @@ const featuredServices = ref<Service[]>([
     active: true
   },
   {
+    id: '4',
+    category: 'iv-therapy',
+    name: 'Immunity Drip',
+    slug: 'immunity-drip',
+    shortDescription: 'High-dose vitamin C, Zinc & B-Vitamins to strengthen defense.',
+    fullDescription: '',
+    price: 195,
+    image: '/assets/products/product_drip_immunity-boost.png',
+    benefits: ['Immune boost', 'Antioxidants', 'Recovery'],
+    featured: true,
+    sortOrder: 2,
+    active: true
+  },
+  {
     id: '2',
     category: 'iv-therapy',
     name: 'Quench',
     slug: 'quench',
-    shortDescription: 'Pure hydration to replenish fluids and restore balance.',
+    shortDescription: 'Pure hydration with essential electrolytes to restore balance.',
     fullDescription: '',
     price: 99,
     image: '/assets/products/product_drip_quench.png',
     benefits: ['Rehydration', 'Electrolyte balance', 'Recovery'],
     featured: true,
-    sortOrder: 2,
+    sortOrder: 3,
+    active: true
+  },
+  {
+    id: '5',
+    category: 'iv-therapy',
+    name: 'Beauty Drip',
+    slug: 'beauty-drip',
+    shortDescription: 'Biotin and Glutathione for radiant hair, skin, and nails.',
+    fullDescription: '',
+    price: 215,
+    image: '/assets/products/product_drip_brighten-up-beauty-mix.png',
+    benefits: ['Radiant skin', 'Hair growth', 'Detox'],
+    featured: true,
+    sortOrder: 4,
     active: true
   },
   {
@@ -188,22 +226,54 @@ const featuredServices = ref<Service[]>([
     image: '/assets/products/product_injection_b12.png',
     benefits: ['Energy', 'Mental clarity', 'Metabolism'],
     featured: true,
+    sortOrder: 1,
+    active: true
+  },
+  {
+    id: '6',
+    category: 'vitamin-injection',
+    name: 'Lipo-C (Fat Burner)',
+    slug: 'lipo-c',
+    shortDescription: 'Boosts metabolism and helps burn fat.',
+    fullDescription: '',
+    price: 35,
+    image: '/assets/products/product_injection_b12.png',
+    benefits: ['Metabolism', 'Fat loss', 'Energy'],
+    featured: true,
+    sortOrder: 2,
+    active: true
+  },
+  {
+    id: '7',
+    category: 'vitamin-injection',
+    name: 'Glutathione',
+    slug: 'glutathione',
+    shortDescription: 'Master antioxidant for detox and skin glow.',
+    fullDescription: '',
+    price: 40,
+    image: '/assets/products/product_injection_glutathione.png',
+    benefits: ['Detox', 'Skin health', 'Immunity'],
+    featured: true,
     sortOrder: 3,
     active: true
   },
   {
-    id: '4',
-    category: 'iv-therapy',
-    name: 'Immunity Drip',
-    slug: 'immunity-drip',
-    shortDescription: 'High-dose vitamin C and zinc to strengthen your immune system.',
+    id: '8',
+    category: 'vitamin-injection',
+    name: 'Toradol (Pain Relief)',
+    slug: 'toradol',
+    shortDescription: 'Strong anti-inflammatory for pain relief.',
     fullDescription: '',
-    price: 195,
-    image: '/assets/products/product_drip_immunity-boost.png',
-    benefits: ['Immune boost', 'Antioxidants', 'Recovery'],
+    price: 35,
+    image: '/assets/products/product_injection_tri-immune.png',
+    benefits: ['Pain relief', 'Anti-inflammatory', 'Comfort'],
     featured: true,
     sortOrder: 4,
     active: true
   }
 ])
+
+const filteredServices = computed(() => {
+  return featuredServices.value.filter(service => service.category === activeCategory.value)
+})
 </script>

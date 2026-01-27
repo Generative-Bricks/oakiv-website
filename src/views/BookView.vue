@@ -263,19 +263,28 @@
                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-oak-green-primary focus:border-transparent"
                   >
                     <option value="">Select a time...</option>
-                    <option value="08:00">8:00 AM</option>
-                    <option value="09:00">9:00 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="12:00">12:00 PM</option>
-                    <option value="13:00">1:00 PM</option>
-                    <option value="14:00">2:00 PM</option>
-                    <option value="15:00">3:00 PM</option>
-                    <option value="16:00">4:00 PM</option>
-                    <option value="17:00">5:00 PM</option>
-                    <option value="18:00">6:00 PM</option>
-                    <option value="19:00">7:00 PM</option>
+                    <option
+                      v-for="slot in timeSlots"
+                      :key="slot.value"
+                      :value="slot.value"
+                    >
+                      {{ slot.label }}
+                    </option>
                   </select>
+                </div>
+              </div>
+
+              <!-- After-Hours Warning Banner -->
+              <div
+                v-if="isSelectedTimeAfterHours"
+                class="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg"
+              >
+                <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                  <p class="font-semibold text-amber-800">{{ AFTER_HOURS_MESSAGE.WARNING_TITLE }}</p>
+                  <p class="text-sm text-amber-700 mt-1">{{ AFTER_HOURS_MESSAGE.WARNING_TEXT }}</p>
                 </div>
               </div>
               <div>
@@ -334,9 +343,18 @@
                   <span class="font-medium text-oak-text">{{ booking.address }}</span>
                 </div>
                 <hr class="border-oak-green-light/30 my-3" />
+                <div class="flex justify-between">
+                  <span class="text-oak-text-light">Service Price:</span>
+                  <span class="font-medium text-oak-text">${{ bookingPricing.basePrice }}</span>
+                </div>
+                <div v-if="bookingPricing.afterHoursFee > 0" class="flex justify-between text-amber-700">
+                  <span>{{ AFTER_HOURS_MESSAGE.FEE_LABEL }}:</span>
+                  <span class="font-medium">+${{ bookingPricing.afterHoursFee }}</span>
+                </div>
+                <hr class="border-oak-green-light/30 my-3" />
                 <div class="flex justify-between text-lg">
                   <span class="font-semibold text-oak-text">Total:</span>
-                  <span class="font-bold text-oak-gold">${{ selectedService?.price }}</span>
+                  <span class="font-bold text-oak-gold">${{ bookingPricing.total }}</span>
                 </div>
               </div>
             </div>
@@ -402,6 +420,8 @@ import { useRoute } from 'vue-router'
 import { SectionHeading } from '@/components/ui'
 import { useServicesStore } from '@/stores'
 import type { Service } from '@/types'
+import { generateTimeSlots, isAfterHours, calculateBookingTotal } from '@/utils'
+import { AFTER_HOURS_MESSAGE } from '@/constants'
 
 const route = useRoute()
 const servicesStore = useServicesStore()
@@ -432,6 +452,22 @@ const minDate = computed(() => {
 // Only show bookable services (exclude vitamin injections which are add-ons)
 const bookableServices = computed(() => {
   return servicesStore.services.filter(s => s.category !== 'vitamin-injection')
+})
+
+// Generate time slots with after-hours indicators
+const timeSlots = computed(() => generateTimeSlots())
+
+// Check if selected time is after-hours
+const isSelectedTimeAfterHours = computed(() => {
+  return booking.time ? isAfterHours(booking.time) : false
+})
+
+// Calculate booking total with potential after-hours fee
+const bookingPricing = computed(() => {
+  if (!selectedService.value || !booking.time) {
+    return { basePrice: 0, afterHoursFee: 0, total: 0 }
+  }
+  return calculateBookingTotal(selectedService.value.price, booking.time)
 })
 
 function selectService(service: Service) {

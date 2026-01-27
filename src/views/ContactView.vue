@@ -73,7 +73,7 @@
                 </div>
                 <div>
                   <h3 class="font-semibold text-oak-text mb-1">Hours</h3>
-                  <p class="text-oak-text-light">Mon - Sun: 8:00 AM - 8:00 PM</p>
+                  <p class="text-oak-text-light">{{ HOURS_DISPLAY.SHORT_WITH_DAYS }}</p>
                 </div>
               </div>
             </div>
@@ -187,6 +187,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { SectionHeading } from '@/components/ui'
+import { HOURS_DISPLAY } from '@/constants'
 
 const form = reactive({
   firstName: '',

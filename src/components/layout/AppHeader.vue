@@ -26,10 +26,6 @@
 
         <!-- CTA Button (Right) -->
         <div class="hidden lg:flex items-center gap-4 z-10 shrink-0">
-           <!-- Phone Number (Optional, good for trust) -->
-           <a href="tel:+15555555555" class="text-sm font-sans text-oak-text-light hover:text-oak-green-primary transition-colors">
-             (555) 555-5555
-           </a>
           <router-link
             to="/book"
             data-testid="book-cta"

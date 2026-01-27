@@ -131,8 +131,10 @@
           </p>
           <div class="bg-oak-green-pale rounded-xl p-6 text-center">
             <p class="text-oak-text font-semibold mb-2">Service Hours</p>
-            <p class="text-oak-text-light">Monday - Sunday: 8:00 AM - 8:00 PM</p>
-            <p class="text-oak-text-light text-sm mt-2">After-hours appointments available upon request</p>
+            <p class="text-oak-text-light">{{ HOURS_DISPLAY.FULL_WITH_DAYS }}</p>
+            <p class="text-oak-text-light text-sm mt-2">
+              After-hours appointments ({{ HOURS_DISPLAY.AFTER_HOURS }}) include a ${{ HOURS_CONFIG.AFTER_HOURS_FEE }} service fee
+            </p>
           </div>
         </div>
       </div>
@@ -182,6 +184,7 @@
 
 <script setup lang="ts">
 import { SectionHeading } from '@/components/ui'
+import { HOURS_DISPLAY, HOURS_CONFIG } from '@/constants'
 
 const teamMembers = [
   {

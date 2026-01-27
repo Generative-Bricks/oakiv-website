@@ -64,4 +64,55 @@ describe('useServicesStore', () => {
       expect(result).toEqual([])
     })
   })
+
+  describe('byCategory getter', () => {
+    it('returns only services matching the category', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.byCategory('iv-therapy')
+
+      // Assert
+      expect(result.every(s => s.category === 'iv-therapy')).toBe(true)
+    })
+
+    it('excludes inactive services', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.byCategory('iv-therapy')
+
+      // Assert
+      expect(result.every(s => s.active)).toBe(true)
+      expect(result.find(s => s.slug === 'inactive-service')).toBeUndefined()
+    })
+
+    it('returns services sorted by sortOrder', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.byCategory('iv-therapy')
+
+      // Assert
+      expect(result[0].sortOrder).toBeLessThanOrEqual(result[1].sortOrder)
+    })
+
+    it('returns empty array for category with no services', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.byCategory('event-service')
+
+      // Assert
+      expect(result).toEqual([])
+    })
+  })
 })

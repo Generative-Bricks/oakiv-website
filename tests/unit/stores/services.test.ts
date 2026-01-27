@@ -115,4 +115,42 @@ describe('useServicesStore', () => {
       expect(result).toEqual([])
     })
   })
+
+  describe('getBySlug getter', () => {
+    it('returns service matching the slug', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.getBySlug('myers-cocktail')
+
+      // Assert
+      expect(result?.name).toBe('Myers Cocktail')
+    })
+
+    it('returns undefined for inactive service', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.getBySlug('inactive-service')
+
+      // Assert
+      expect(result).toBeUndefined()
+    })
+
+    it('returns undefined for non-existent slug', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.getBySlug('does-not-exist')
+
+      // Assert
+      expect(result).toBeUndefined()
+    })
+  })
 })

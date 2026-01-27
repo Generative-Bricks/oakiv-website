@@ -24,4 +24,44 @@ describe('useServicesStore', () => {
       expect(store.error).toBeNull()
     })
   })
+
+  describe('featured getter', () => {
+    it('returns only featured and active services', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.featured
+
+      // Assert
+      expect(result).toHaveLength(2) // Myers Cocktail + B12 Boost (not inactive)
+      expect(result.every(s => s.featured && s.active)).toBe(true)
+    })
+
+    it('returns services sorted by sortOrder', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices
+
+      // Act
+      const result = store.featured
+
+      // Assert
+      expect(result[0].name).toBe('Myers Cocktail') // sortOrder: 1
+      expect(result[1].name).toBe('B12 Boost') // sortOrder: 1 (stable sort)
+    })
+
+    it('returns empty array when no featured services', () => {
+      // Arrange
+      const store = useServicesStore()
+      store.services = mockServices.filter(s => !s.featured)
+
+      // Act
+      const result = store.featured
+
+      // Assert
+      expect(result).toEqual([])
+    })
+  })
 })

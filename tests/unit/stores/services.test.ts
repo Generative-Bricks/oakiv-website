@@ -189,4 +189,28 @@ describe('useServicesStore', () => {
       expect(store.error).toBeNull()
     })
   })
+
+  describe('fetchByCategory action', () => {
+    it('fetches only services of specified category', async () => {
+      // Arrange
+      const store = useServicesStore()
+
+      // Act
+      await store.fetchByCategory('vitamin-injection')
+
+      // Assert
+      expect(store.services.every(s => s.category === 'vitamin-injection')).toBe(true)
+    })
+
+    it('sets loading state correctly', async () => {
+      // Arrange
+      const store = useServicesStore()
+
+      // Act
+      await store.fetchByCategory('iv-therapy')
+
+      // Assert
+      expect(store.loading).toBe(false)
+    })
+  })
 })

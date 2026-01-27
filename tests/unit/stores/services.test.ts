@@ -153,4 +153,40 @@ describe('useServicesStore', () => {
       expect(result).toBeUndefined()
     })
   })
+
+  describe('fetchAll action', () => {
+    it('sets loading to false after fetch completes', async () => {
+      // Arrange
+      const store = useServicesStore()
+
+      // Act
+      await store.fetchAll()
+
+      // Assert
+      expect(store.loading).toBe(false)
+    })
+
+    it('populates services after fetch', async () => {
+      // Arrange
+      const store = useServicesStore()
+
+      // Act
+      await store.fetchAll()
+
+      // Assert
+      expect(store.services.length).toBeGreaterThan(0)
+    })
+
+    it('clears error on successful fetch', async () => {
+      // Arrange
+      const store = useServicesStore()
+      store.error = 'Previous error'
+
+      // Act
+      await store.fetchAll()
+
+      // Assert
+      expect(store.error).toBeNull()
+    })
+  })
 })

@@ -213,4 +213,37 @@ describe('useServicesStore', () => {
       expect(store.loading).toBe(false)
     })
   })
+
+  describe('category-specific computed properties', () => {
+    it('ivTherapy returns only iv-therapy category services', () => {
+      const store = useServicesStore()
+      store.services = mockServices
+
+      expect(store.ivTherapy).toHaveLength(2)
+      expect(store.ivTherapy.every(s => s.category === 'iv-therapy')).toBe(true)
+    })
+
+    it('vitaminInjections returns only vitamin-injection category services', () => {
+      const store = useServicesStore()
+      store.services = mockServices
+
+      expect(store.vitaminInjections).toHaveLength(1)
+      expect(store.vitaminInjections[0].name).toBe('B12 Boost')
+    })
+
+    it('wellnessConsultations returns only wellness-consultation category services', () => {
+      const store = useServicesStore()
+      store.services = mockServices
+
+      expect(store.wellnessConsultations).toHaveLength(1)
+      expect(store.wellnessConsultations[0].name).toBe('Wellness Consultation')
+    })
+
+    it('eventServices returns empty array when no event services exist', () => {
+      const store = useServicesStore()
+      store.services = mockServices
+
+      expect(store.eventServices).toEqual([])
+    })
+  })
 })

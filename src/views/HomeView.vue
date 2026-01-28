@@ -148,10 +148,10 @@
 import { ref, computed } from 'vue'
 import { SectionHeading } from '@/components/ui'
 import { ServiceCard } from '@/components/features'
-import HowItWorks from '@/components/home/HowItWorks.vue'
-import ShopByBenefit from '@/components/home/ShopByBenefit.vue'
-import TrustBadges from '@/components/home/TrustBadges.vue'
-import TestimonialCarousel from '@/components/home/TestimonialCarousel.vue'
+import HowItWorks from '@/components/Home/HowItWorks.vue'
+import ShopByBenefit from '@/components/Home/ShopByBenefit.vue'
+import TrustBadges from '@/components/Home/TrustBadges.vue'
+import TestimonialCarousel from '@/components/Home/TestimonialCarousel.vue'
 import type { Service } from '@/types'
 
 // Active category for the filter

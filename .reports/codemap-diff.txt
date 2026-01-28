@@ -1,0 +1,43 @@
+CODEMAP GENERATION REPORT
+=========================
+Generated: 2026-01-28T15:45:00Z
+Project: Oak IV Hydration & Wellness
+
+STATUS: INITIAL GENERATION
+--------------------------
+No previous codemaps existed. This is the first generation.
+
+FILES CREATED:
+- docs/codemaps/architecture.md  (3.2 KB)
+- docs/codemaps/frontend.md      (4.8 KB)
+- docs/codemaps/backend.md       (5.1 KB)
+- docs/codemaps/data.md          (6.2 KB)
+
+TOTAL: 19.3 KB of documentation
+
+ANALYSIS SUMMARY:
+-----------------
+Frontend:
+  - Views: 14 pages
+  - Components: 15 total (4 UI, 3 layout, 4 home, 2 features)
+  - Stores: 3 (services, chat, testimonials)
+  - Composables: 1 (useChat)
+  - Routes: 14 defined
+
+Backend:
+  - Models: 5 DynamoDB tables
+  - Enums: 5 defined
+  - Functions: 1 Lambda (chat)
+  - Auth: Cognito with 3 groups
+
+Key Patterns Documented:
+  - Vue 3 Composition API with Pinia
+  - AWS Amplify Gen 2 TypeScript-first backend
+  - Bedrock RAG integration with safety guardrails
+  - Owner-based authorization for HIPAA compliance
+  - Mock data pattern for development
+
+NEXT UPDATE:
+------------
+Run /update-codemaps after significant changes.
+Diff threshold for approval: 30%

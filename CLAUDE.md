@@ -4,6 +4,10 @@
 
 Oak IV is a mobile IV hydration and wellness service website serving the Dallas-Fort Worth Metroplex. This is a Vue 3 SPA with AWS Amplify Gen 2 backend and Amazon Bedrock AI assistant.
 
+## Architecture Reference
+
+For detailed architecture, see codemaps: @docs/codemaps/architecture.md @docs/codemaps/frontend.md @docs/codemaps/backend.md @docs/codemaps/data.md
+
 ## Tech Stack
 
 - **Frontend:** Vue 3 + Vite + TypeScript + Tailwind CSS 4
@@ -211,7 +215,10 @@ npx playwright test                    # All tests, all browsers
 npx playwright test --project=chromium # Chrome only
 npx playwright test --ui               # Interactive UI mode
 npx playwright test --headed           # Visible browser
+npm run test:e2e:report                # Open HTML report
 ```
+
+HTML report auto-generates at `playwright-report/index.html` (multi-reporter: list + html).
 
 ### Writing E2E Tests
 

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import './types' // Import route meta types
 
 const routes: RouteRecordRaw[] = [
   {

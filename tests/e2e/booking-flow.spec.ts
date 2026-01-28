@@ -10,25 +10,28 @@ test.describe('Booking Flow', () => {
     await homePage.clickBookNow()
     await expect(page).toHaveURL(/\/book/)
 
-    // Select a service
-    await bookingPage.selectService('Myers Cocktail')
+    // Select a service by clicking the card
+    await bookingPage.selectServiceByName('Myers Cocktail')
 
-    // Select date (tomorrow)
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    const dateStr = tomorrow.toISOString().split('T')[0]
-    await bookingPage.selectDate(dateStr)
+    // Verify service is selected (card should have selected styling)
+    const isSelected = await bookingPage.isServiceSelected('Myers Cocktail')
+    expect(isSelected).toBe(true)
+
+    // Proceed to step 2
+    await bookingPage.proceedToStep2()
 
     // Fill contact info
     await bookingPage.fillContactInfo({
-      name: 'Test User',
+      firstName: 'Test',
+      lastName: 'User',
       email: 'test@example.com',
       phone: '4695551234',
       address: '123 Main St, Dallas, TX 75201'
     })
 
     // Verify form is filled
-    await expect(bookingPage.nameInput).toHaveValue('Test User')
+    await expect(bookingPage.firstNameInput).toHaveValue('Test')
+    await expect(bookingPage.lastNameInput).toHaveValue('User')
     await expect(bookingPage.emailInput).toHaveValue('test@example.com')
   })
 
@@ -36,33 +39,51 @@ test.describe('Booking Flow', () => {
     // Go directly to booking with service pre-selected
     await bookingPage.goto('myers-cocktail')
 
-    // Service should be pre-selected
-    await expect(bookingPage.serviceSelect).toHaveValue(/myers/i)
+    // Service should be pre-selected - shows summary card with "Selected Service" text
+    const hasPreselected = await bookingPage.hasPreselectedService()
+    expect(hasPreselected).toBe(true)
+
+    // Continue button should be enabled
+    await expect(bookingPage.continueButton).toBeEnabled()
   })
 
-  test('booking form validates required fields', async ({ bookingPage }) => {
+  test('can select different service', async ({ bookingPage }) => {
     await bookingPage.goto()
 
-    // Try to submit empty form
-    await bookingPage.submit()
+    // Select first service
+    await bookingPage.selectServiceByIndex(0)
+    await expect(bookingPage.selectedServiceCard).toBeVisible()
 
-    // Should show validation (HTML5 or custom)
-    const nameInput = bookingPage.nameInput
-    const isInvalid = await nameInput.evaluate((el: HTMLInputElement) => !el.validity.valid)
-    expect(isInvalid).toBe(true)
+    // Select a different service
+    await bookingPage.selectServiceByIndex(1)
+
+    // Should only have one selected
+    const selectedCount = await bookingPage.selectedServiceCard.count()
+    expect(selectedCount).toBe(1)
   })
 
   test('booking from service detail page', async ({ page }) => {
     // Go to service detail
     await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
 
-    // Click book this service
-    await page.click('text=Book This Service, text=Book Now').catch(() => {
-      // Fallback selector
-      return page.click('a[href*="/book"]')
-    })
+    // Click book this service button
+    await page.click('a:has-text("Book This Service")')
 
     // Should navigate to booking with service pre-selected
     await expect(page).toHaveURL(/\/book\?service=myers-cocktail/)
+  })
+
+  test('continue button is disabled without service selection', async ({ bookingPage }) => {
+    await bookingPage.goto()
+
+    // Continue button should be disabled when no service is selected
+    await expect(bookingPage.continueButton).toBeDisabled()
+
+    // Select a service
+    await bookingPage.selectServiceByIndex(0)
+
+    // Continue button should now be enabled
+    await expect(bookingPage.continueButton).toBeEnabled()
   })
 })

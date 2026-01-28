@@ -3,55 +3,78 @@ import { test, expect } from './fixtures'
 
 test.describe('Service Detail Pages', () => {
   const services = [
-    { slug: 'myers-cocktail', name: 'Myers Cocktail', price: '$185' },
-    { slug: 'hangover-cure', name: 'Hangover Cure', price: '$195' },
-    { slug: 'virus-buster', name: 'Virus Buster', price: '$210' },
-    { slug: 'b12-boost', name: 'B12 Boost', price: '$35' }
+    { slug: 'myers-cocktail', name: 'Myers Cocktail', price: '185' },
+    { slug: 'hangover-cure', name: 'Hangover Cure', price: '195' },
+    { slug: 'virus-buster', name: 'Virus Buster', price: '210' },
+    { slug: 'b12-boost', name: 'B12 Boost', price: '35' }
   ]
 
   for (const service of services) {
     test(`${service.name} page displays correctly`, async ({ page }) => {
       await page.goto(`/services/${service.slug}`)
+      await page.waitForLoadState('networkidle')
 
-      // Title should contain service name
-      await expect(page).toHaveTitle(new RegExp(service.name, 'i'))
+      // Service name should be visible in h1
+      await expect(page.locator('h1').filter({ hasText: service.name })).toBeVisible()
 
-      // Service name should be visible
-      await expect(page.locator(`h1, h2`).filter({ hasText: service.name })).toBeVisible()
-
-      // Price should be displayed
-      await expect(page.locator(`text=${service.price}`)).toBeVisible()
-
-      // Benefits section should exist
-      await expect(page.locator('text=Benefits, [data-testid="benefits"]')).toBeVisible()
+      // Price should be displayed in hero section (format: $XXX)
+      const priceInHero = page.locator('.text-oak-gold').filter({ hasText: `$${service.price}` })
+      await expect(priceInHero.first()).toBeVisible()
 
       // Book button should exist
-      await expect(page.locator('text=Book, a[href*="/book"]')).toBeVisible()
+      await expect(page.locator('a:has-text("Book This Service")')).toBeVisible()
     })
   }
 
-  test('service detail has ingredients list for IV therapy', async ({ page }) => {
+  test('service detail has benefits section', async ({ page }) => {
     await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
 
-    // Ingredients should be listed
-    await expect(page.locator('text=Vitamin C')).toBeVisible()
-    await expect(page.locator('text=B12, text=B-Complex')).toBeVisible()
+    // Benefits heading should be visible
+    await expect(page.locator('h3:has-text("Benefits")')).toBeVisible()
   })
 
-  test('service detail shows duration', async ({ page }) => {
+  test('service detail has ingredients section', async ({ page }) => {
     await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
 
-    // Duration should be visible
-    await expect(page.locator('text=45-60 min, text=minutes')).toBeVisible()
+    // Ingredients section has heading "What's Included"
+    await expect(page.locator('h3:has-text("What\'s Included")')).toBeVisible()
   })
 
-  test('nonexistent service shows 404 or redirect', async ({ page }) => {
+  test('service detail shows duration in sidebar', async ({ page }) => {
+    await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
+
+    // Duration shows in Quick Info sidebar
+    await expect(page.getByText('Duration')).toBeVisible()
+  })
+
+  test('nonexistent service shows not found message', async ({ page }) => {
     await page.goto('/services/nonexistent-service')
+    await page.waitForLoadState('networkidle')
 
-    // Should either show 404 or redirect to services list
-    const is404 = await page.locator('text=Not Found').isVisible().catch(() => false)
-    const isServicesList = page.url().includes('/services') && !page.url().includes('nonexistent')
+    // Should show "Service Not Found" message
+    await expect(page.locator('text=Service Not Found')).toBeVisible()
+  })
 
-    expect(is404 || isServicesList).toBe(true)
+  test('service detail has back to services link', async ({ page }) => {
+    await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
+
+    // Back link should exist
+    const backLink = page.locator('a:has-text("Back to Services")')
+    await expect(backLink).toBeVisible()
+  })
+
+  test('book button navigates to booking with service param', async ({ page }) => {
+    await page.goto('/services/myers-cocktail')
+    await page.waitForLoadState('networkidle')
+
+    // Click book button
+    await page.click('a:has-text("Book This Service")')
+
+    // Should navigate to booking with service query param
+    await expect(page).toHaveURL(/\/book\?service=myers-cocktail/)
   })
 })

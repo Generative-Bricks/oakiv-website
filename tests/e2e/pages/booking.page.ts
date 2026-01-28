@@ -9,45 +9,82 @@ export class BookingPage extends BasePage {
     super(page)
   }
 
-  // Selectors
-  get serviceSelect(): Locator {
-    return this.page.locator('select[name="service"], [data-testid="service-select"]')
+  // Step indicators
+  get currentStep(): Locator {
+    return this.page.locator('.bg-oak-green-primary.text-white.rounded-full.w-10.h-10')
   }
 
-  get dateInput(): Locator {
-    return this.page.locator('input[type="date"], input[name*="date" i]')
+  // Step 1: Service Selection
+  get serviceCards(): Locator {
+    return this.page.locator('.border-2.rounded-xl.cursor-pointer')
   }
 
-  get timeSelect(): Locator {
-    return this.page.locator('select[name="time"], [data-testid="time-select"]')
+  get selectedServiceCard(): Locator {
+    return this.page.locator('.border-oak-green-primary.bg-oak-green-pale')
   }
 
-  get nameInput(): Locator {
-    return this.page.locator('input[name="name"]')
+  get preselectedServiceSummary(): Locator {
+    // Summary card shown when service is pre-selected via URL
+    return this.page.locator('text=Selected Service').locator('xpath=ancestor::div[contains(@class, "border-oak-green-primary")]')
+  }
+
+  get selectedServiceName(): Locator {
+    return this.page.locator('text=Selected Service').locator('..').locator('h3')
+  }
+
+  async hasPreselectedService(): Promise<boolean> {
+    return this.preselectedServiceSummary.isVisible()
+  }
+
+  get continueButton(): Locator {
+    return this.page.locator('button:has-text("Continue")')
+  }
+
+  get changeServiceButton(): Locator {
+    return this.page.locator('button:has-text("Change Service")')
+  }
+
+  // Step 2: Contact Details
+  get firstNameInput(): Locator {
+    return this.page.locator('#firstName')
+  }
+
+  get lastNameInput(): Locator {
+    return this.page.locator('#lastName')
   }
 
   get emailInput(): Locator {
-    return this.page.locator('input[name="email"], input[type="email"]')
+    return this.page.locator('#email')
   }
 
   get phoneInput(): Locator {
-    return this.page.locator('input[name="phone"], input[type="tel"]')
+    return this.page.locator('#phone')
   }
 
   get addressInput(): Locator {
-    return this.page.locator('input[name="address"], textarea[name="address"]')
+    return this.page.locator('#address')
+  }
+
+  get preferredDateInput(): Locator {
+    return this.page.locator('#preferredDate')
+  }
+
+  get preferredTimeSelect(): Locator {
+    return this.page.locator('#preferredTime')
   }
 
   get notesInput(): Locator {
-    return this.page.locator('textarea[name="notes"]')
+    return this.page.locator('#notes')
   }
 
-  get submitButton(): Locator {
-    return this.page.locator('button[type="submit"]')
+  // Step 3: Confirmation
+  get confirmButton(): Locator {
+    return this.page.locator('button:has-text("Confirm"), button:has-text("Submit")')
   }
 
   get successMessage(): Locator {
-    return this.page.locator('[data-testid="success-message"], text=Thank you')
+    // Match any success-related text
+    return this.page.locator('text=/Thank you|confirmed|success/i')
   }
 
   // Actions
@@ -57,33 +94,71 @@ export class BookingPage extends BasePage {
     await this.waitForPageLoad()
   }
 
-  async selectService(serviceName: string): Promise<void> {
-    await this.serviceSelect.selectOption({ label: serviceName })
+  async selectServiceByName(serviceName: string): Promise<void> {
+    // Click on the service card containing the service name
+    const serviceCard = this.page.locator(`.border-2.rounded-xl.cursor-pointer:has-text("${serviceName}")`)
+    await serviceCard.click()
   }
 
-  async selectDate(date: string): Promise<void> {
-    await this.dateInput.fill(date)
+  async selectServiceByIndex(index: number): Promise<void> {
+    await this.serviceCards.nth(index).click()
   }
 
-  async selectTime(time: string): Promise<void> {
-    await this.timeSelect.selectOption({ label: time })
+  async isServiceSelected(serviceName: string): Promise<boolean> {
+    const selected = this.page.locator(`.border-oak-green-primary:has-text("${serviceName}")`)
+    return selected.isVisible()
+  }
+
+  async getSelectedServiceName(): Promise<string> {
+    const selectedBadge = this.page.locator('text=Selected').first()
+    if (await selectedBadge.isVisible()) {
+      // Get the service name from the parent card
+      const card = selectedBadge.locator('xpath=ancestor::div[contains(@class, "border-oak-green-primary")]')
+      const nameElement = card.locator('h3').first()
+      return (await nameElement.textContent()) || ''
+    }
+    return ''
+  }
+
+  async proceedToStep2(): Promise<void> {
+    await this.continueButton.click()
+    // Wait for step 2 to be visible
+    await this.firstNameInput.waitFor({ state: 'visible' })
   }
 
   async fillContactInfo(info: {
-    name: string
+    firstName: string
+    lastName: string
     email: string
     phone: string
     address?: string
-    notes?: string
   }): Promise<void> {
-    await this.nameInput.fill(info.name)
+    await this.firstNameInput.fill(info.firstName)
+    await this.lastNameInput.fill(info.lastName)
     await this.emailInput.fill(info.email)
     await this.phoneInput.fill(info.phone)
-    if (info.address) await this.addressInput.fill(info.address)
-    if (info.notes) await this.notesInput.fill(info.notes)
+    if (info.address) {
+      await this.addressInput.fill(info.address)
+    }
   }
 
-  async submit(): Promise<void> {
-    await this.submitButton.click()
+  async fillScheduleInfo(info: {
+    date: string
+    time: string
+    notes?: string
+  }): Promise<void> {
+    await this.preferredDateInput.fill(info.date)
+    await this.preferredTimeSelect.selectOption(info.time)
+    if (info.notes) {
+      await this.notesInput.fill(info.notes)
+    }
+  }
+
+  async proceedToStep3(): Promise<void> {
+    await this.continueButton.click()
+  }
+
+  async submitBooking(): Promise<void> {
+    await this.confirmButton.click()
   }
 }

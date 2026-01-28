@@ -8,45 +8,53 @@ export class ChatWidget {
     this.page = page
   }
 
-  // Selectors
+  // Selectors - match actual data-testid attributes from ChatWidget.vue
   get toggle(): Locator {
-    return this.page.locator('[data-testid="chat-toggle"], button[aria-label*="chat" i]')
+    return this.page.locator('[data-testid="chat-toggle"]')
   }
 
   get window(): Locator {
-    return this.page.locator('[data-testid="chat-window"], [role="dialog"]')
+    return this.page.locator('[data-testid="chat-window"]')
   }
 
   get closeButton(): Locator {
-    return this.window.locator('button').first()
+    return this.page.locator('[data-testid="chat-close"]')
   }
 
   get messageInput(): Locator {
-    return this.window.locator('input, textarea').first()
+    return this.page.locator('[data-testid="chat-input"]')
   }
 
   get sendButton(): Locator {
-    return this.window.locator('button[type="submit"], button:has-text("Send")')
+    return this.page.locator('[data-testid="chat-send"]')
+  }
+
+  get messagesContainer(): Locator {
+    return this.window.locator('.overflow-y-auto')
   }
 
   get messages(): Locator {
-    return this.window.locator('[data-testid="chat-message"], [class*="message"]')
+    // Messages are divs with max-w-[85%] class inside the messages container
+    return this.messagesContainer.locator('div.max-w-\\[85\\%\\]')
   }
 
   get userMessages(): Locator {
-    return this.window.locator('[data-testid="user-message"], [class*="user"]')
+    // User messages have bg-oak-green-primary class
+    return this.messagesContainer.locator('div.bg-oak-green-primary')
   }
 
   get assistantMessages(): Locator {
-    return this.window.locator('[data-testid="assistant-message"], [class*="assistant"]')
+    // Assistant messages have bg-white or bg-red-100 (emergency) class
+    return this.messagesContainer.locator('div.bg-white, div.bg-red-100')
   }
 
   get emergencyBanner(): Locator {
-    return this.window.locator('[data-testid="emergency-banner"], text=911')
+    return this.page.locator('[data-testid="emergency-banner"]')
   }
 
   get loadingIndicator(): Locator {
-    return this.window.locator('[data-testid="loading"], [class*="loading"]')
+    // Loading shows "Thinking..." text
+    return this.window.locator('text=Thinking...')
   }
 
   // Actions
@@ -60,20 +68,37 @@ export class ChatWidget {
     await this.window.waitFor({ state: 'hidden' })
   }
 
+  async isOpen(): Promise<boolean> {
+    return this.window.isVisible()
+  }
+
   async sendMessage(message: string): Promise<void> {
     await this.messageInput.fill(message)
     await this.sendButton.click()
   }
 
-  async waitForResponse(): Promise<void> {
+  async waitForResponse(timeout = 10000): Promise<void> {
     // Wait for loading to appear then disappear
-    await this.loadingIndicator.waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
-    await this.loadingIndicator.waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {})
+    try {
+      await this.loadingIndicator.waitFor({ state: 'visible', timeout: 2000 })
+    } catch {
+      // Loading may have already finished
+    }
+    try {
+      await this.loadingIndicator.waitFor({ state: 'hidden', timeout })
+    } catch {
+      // May not have loading indicator
+    }
   }
 
   async getLastAssistantMessage(): Promise<string> {
     const messages = await this.assistantMessages.all()
+    if (messages.length === 0) return ''
     const lastMessage = messages[messages.length - 1]
-    return lastMessage ? await lastMessage.textContent() || '' : ''
+    return (await lastMessage.textContent()) || ''
+  }
+
+  async getMessageCount(): Promise<number> {
+    return this.messages.count()
   }
 }

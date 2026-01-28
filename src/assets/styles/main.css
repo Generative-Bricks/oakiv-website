@@ -18,6 +18,20 @@
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Larken', 'Playfair Display', serif;
+
+  /* Custom Animations */
+  --animate-slide-in-up: slide-in-up 0.2s ease-out;
+
+  @keyframes slide-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @font-face {

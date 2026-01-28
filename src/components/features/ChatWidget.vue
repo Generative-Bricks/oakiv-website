@@ -17,7 +17,7 @@
     <div
       v-else
       data-testid="chat-window"
-      class="w-96 h-[32rem] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-200"
+      class="w-96 h-[32rem] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-in-up"
     >
       <!-- Header -->
       <div class="bg-oak-green-primary text-white p-4 flex items-center justify-between">
@@ -161,20 +161,3 @@ watch(
   }
 )
 </script>
-
-<style scoped>
-@keyframes animate-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-in {
-  animation: animate-in 0.2s ease-out;
-}
-</style>

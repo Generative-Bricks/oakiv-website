@@ -5,6 +5,7 @@
         <!-- Logo -->
         <router-link to="/" data-testid="logo" class="flex items-center gap-3 group z-10 shrink-0">
           <img
+            v-show="logoVisible"
             src="/assets/logo_color.png"
             alt="Oak IV Hydration & Wellness"
             class="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
@@ -109,6 +110,7 @@ import { ref } from 'vue'
 import type { NavLink } from '@/types'
 
 const mobileMenuOpen = ref(false)
+const logoVisible = ref(true)
 
 const navLinks: NavLink[] = [
   { to: '/', label: 'Home' },
@@ -119,9 +121,7 @@ const navLinks: NavLink[] = [
   { to: '/contact', label: 'Contact' }
 ]
 
-function handleLogoError(event: Event) {
-  const img = event.target as HTMLImageElement
-  // Hide broken image
-  img.style.display = 'none'
+function handleLogoError() {
+  logoVisible.value = false
 }
 </script>

@@ -54,6 +54,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const AUTOPLAY_INTERVAL_MS = 6000
+
 const currentSlide = ref(0)
 const autoplayInterval = ref<number | null>(null)
 
@@ -81,7 +83,7 @@ const nextSlide = () => {
 }
 
 onMounted(() => {
-  autoplayInterval.value = window.setInterval(nextSlide, 6000)
+  autoplayInterval.value = window.setInterval(nextSlide, AUTOPLAY_INTERVAL_MS)
 })
 
 onUnmounted(() => {

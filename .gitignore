@@ -31,3 +31,7 @@ amplify_outputs.d.ts
 
 # Claude Code
 .claude/
+
+# Playwright
+playwright-report/
+test-results/

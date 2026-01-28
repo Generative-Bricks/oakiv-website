@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { isAfterHours, generateTimeSlots, calculateBookingTotal } from '@/utils'
 
 describe('isAfterHours', () => {
-  describe('regular hours (8am-5pm)', () => {
+  describe('regular hours (8am-7pm)', () => {
     it('returns false for 8:00 AM', () => {
       expect(isAfterHours('08:00')).toBe(false)
     })
@@ -14,15 +14,19 @@ describe('isAfterHours', () => {
     it('returns false for 4:00 PM (16:00)', () => {
       expect(isAfterHours('16:00')).toBe(false)
     })
-  })
 
-  describe('after hours (5pm-9pm)', () => {
-    it('returns true for 5:00 PM (17:00)', () => {
-      expect(isAfterHours('17:00')).toBe(true)
+    it('returns false for 5:00 PM (17:00)', () => {
+      expect(isAfterHours('17:00')).toBe(false)
     })
 
-    it('returns true for 6:00 PM (18:00)', () => {
-      expect(isAfterHours('18:00')).toBe(true)
+    it('returns false for 6:00 PM (18:00)', () => {
+      expect(isAfterHours('18:00')).toBe(false)
+    })
+  })
+
+  describe('after hours (7pm-9pm)', () => {
+    it('returns true for 7:00 PM (19:00)', () => {
+      expect(isAfterHours('19:00')).toBe(true)
     })
 
     it('returns true for 8:00 PM (20:00)', () => {

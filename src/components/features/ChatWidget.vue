@@ -84,9 +84,9 @@
         <!-- Loading indicator -->
         <div v-if="chatStore.isLoading" class="flex items-center gap-2 text-oak-text-light">
           <div class="flex gap-1">
-            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce" style="animation-delay: 0ms" />
-            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce" style="animation-delay: 150ms" />
-            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce" style="animation-delay: 300ms" />
+            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce [animation-delay:0ms]" />
+            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce [animation-delay:150ms]" />
+            <div class="w-2 h-2 bg-oak-green-primary rounded-full animate-bounce [animation-delay:300ms]" />
           </div>
           <span class="text-sm">Thinking...</span>
         </div>
